@@ -73,22 +73,22 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 	}
 	
 	private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
-    }
+		if (getServer().getPluginManager().getPlugin("Vault") == null) {
+			return false;
+		}
+		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+		if (rsp == null) {
+			return false;
+		}
+		econ = rsp.getProvider();
+		return econ != null;
+	}
 	
 	private boolean setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-        perms = rsp.getProvider();
-        return perms != null;
-    }
+		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+		perms = rsp.getProvider();
+		return perms != null;
+	}
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
@@ -105,13 +105,13 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		}
 		
 		Map<Integer, String> map = new TreeMap<Integer, String>(asd); 
-        Set<?> set2 = map.entrySet();
-        Iterator<?> iterator2 = set2.iterator();
-        while(iterator2.hasNext()) {
-             @SuppressWarnings("rawtypes")
+		Set<?> set2 = map.entrySet();
+		Iterator<?> iterator2 = set2.iterator();
+		while(iterator2.hasNext()) {
+			 @SuppressWarnings("rawtypes")
 			Map.Entry me2 = (Map.Entry)iterator2.next();
-             ranks.put(Integer.parseInt(me2.getKey().toString()), me2.getValue().toString());
-        }
+			 ranks.put(Integer.parseInt(me2.getKey().toString()), me2.getValue().toString());
+		}
 	}
 	
 	public void reloadAllPlayerRanks() {
@@ -126,11 +126,11 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 			Player player = getServer().getPlayer(name);
 			if(player != null){
 				playerRankFound = isRank(rank);
-			    if(!playerRankFound){
-			    	String defaultRankName = getConfig().getString("ranks."+defaultRank+".name");
-			    	getPermissions().playerRemoveGroup(null, player, rank);
+				if(!playerRankFound){
+					String defaultRankName = getConfig().getString("ranks."+defaultRank+".name");
+					getPermissions().playerRemoveGroup(null, player, rank);
 					getPermissions().playerAddGroup(null, player, defaultRankName);
-			    }
+				}
 			}
 		}
 		Collection<? extends Player> onlinePlayers = getServer().getOnlinePlayers();
@@ -156,40 +156,40 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		if(rank == null)return;
 		
 		playerRankFound = isRank(rank);
-	    if(!playerRankFound){
-	    	String defaultRankName = getConfig().getString("ranks."+defaultRank+".name");
-	    	getPermissions().playerRemoveGroup(null, player, rank);
+		if(!playerRankFound){
+			String defaultRankName = getConfig().getString("ranks."+defaultRank+".name");
+			getPermissions().playerRemoveGroup(null, player, rank);
 			getPermissions().playerAddGroup(null, player, defaultRankName);
-	    } else {
-	    	String[] groups = getPermissions().getPlayerGroups(player);
-		    List<String> groupList = Arrays.asList(groups);
-		    if(!groupList.contains(rank)){
-		    	getPermissions().playerAddGroup(null, player, rank);
-		    }
-	    }
+		} else {
+			String[] groups = getPermissions().getPlayerGroups(player);
+			List<String> groupList = Arrays.asList(groups);
+			if(!groupList.contains(rank)){
+				getPermissions().playerAddGroup(null, player, rank);
+			}
+		}
 	}
 	
 	public static Economy getEconomy() {
-        return econ;
-    }
+		return econ;
+	}
 	
 	public static Permission getPermissions() {
-        return perms;
-    }
+		return perms;
+	}
 	
 	public String getRankId(String rank) {
 		if(rank == null) return null;
 		
 		String nextRankToReturn = null;
 		NavigableMap<Integer, String> mp = new TreeMap<Integer, String>(ranks);
-	    for (Map.Entry<Integer, String> e : mp.entrySet()) {
-	    	String tname = getConfig().getString("ranks."+e.getValue()+".name");
-	        if(tname.equals(rank)){
-	        	nextRankToReturn = e.getValue();
-	        	break;
-	        }
-	    }
-	    return nextRankToReturn;
+		for (Map.Entry<Integer, String> e : mp.entrySet()) {
+			String tname = getConfig().getString("ranks."+e.getValue()+".name");
+			if(tname.equals(rank)){
+				nextRankToReturn = e.getValue();
+				break;
+			}
+		}
+		return nextRankToReturn;
 	}
 	
 	public String getNextRank(String rank) {
@@ -197,17 +197,17 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		
 		String nextRankToReturn = null;
 		NavigableMap<Integer, String> mp = new TreeMap<Integer, String>(ranks);
-	    for (Map.Entry<Integer, String> e : mp.entrySet()) {
-	    	String tname = getConfig().getString("ranks."+e.getValue()+".name");
-	        if(tname.equals(rank)){
-	        	Map.Entry<Integer, String> next = mp.higherEntry(e.getKey());
-	        	if(next != null){
-	        		nextRankToReturn = next.getValue();
-	        	}
-	        	break;
-	        }
-	    }
-	    return nextRankToReturn;
+		for (Map.Entry<Integer, String> e : mp.entrySet()) {
+			String tname = getConfig().getString("ranks."+e.getValue()+".name");
+			if(tname.equals(rank)){
+				Map.Entry<Integer, String> next = mp.higherEntry(e.getKey());
+				if(next != null){
+					nextRankToReturn = next.getValue();
+				}
+				break;
+			}
+		}
+		return nextRankToReturn;
 	}
 	
 	public String getPrevRank(String rank) {
@@ -215,15 +215,15 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		
 		String nextRankToReturn = null;
 		NavigableMap<Integer, String> mp = new TreeMap<Integer, String>(ranks);
-	    for (Map.Entry<Integer, String> e : mp.entrySet()) {
-	    	String tname = getConfig().getString("ranks."+e.getValue()+".name");
-	        if(tname.equals(rank)){
-	        	Map.Entry<Integer, String> prev = mp.lowerEntry(e.getKey());
-	        	nextRankToReturn = prev.getValue();
-	        	break;
-	        }
-	    }
-	    return nextRankToReturn;
+		for (Map.Entry<Integer, String> e : mp.entrySet()) {
+			String tname = getConfig().getString("ranks."+e.getValue()+".name");
+			if(tname.equals(rank)){
+				Map.Entry<Integer, String> prev = mp.lowerEntry(e.getKey());
+				nextRankToReturn = prev.getValue();
+				break;
+			}
+		}
+		return nextRankToReturn;
 	}
 	
 	public boolean isPreviousRank(String playerRank, String checkedRank){
@@ -233,14 +233,14 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		
 		NavigableMap<Integer, String> mp = new TreeMap<Integer, String>(ranks);
 		
-	    for (Map.Entry<Integer, String> e : mp.entrySet()) {
-	    	String cr = getConfig().getString("ranks."+e.getValue()+".name");
-	        if(!cr.equals(playerRank)){
-	        	p.add(cr);
-	        } else {
-	        	break;
-	        }
-	    }
+		for (Map.Entry<Integer, String> e : mp.entrySet()) {
+			String cr = getConfig().getString("ranks."+e.getValue()+".name");
+			if(!cr.equals(playerRank)){
+				p.add(cr);
+			} else {
+				break;
+			}
+		}
 		return p.contains(checkedRank);
 	}
 	
@@ -259,11 +259,11 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		NavigableMap<Integer, String> mp = new TreeMap<Integer, String>(ranks);
 		for (Map.Entry<Integer, String> e : mp.entrySet()) {
 			String name = getConfig().getString("ranks."+e.getValue()+".name");
-	        if(rank.equals(name)){
-	        	value = true;
-	        	break;
-	        }
-	    }
+			if(rank.equals(name)){
+				value = true;
+				break;
+			}
+		}
 		return value;
 	}
 	
@@ -271,7 +271,7 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		return ChatColor.translateAlternateColorCodes('&', string);
 	}
 	
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("rankup")){
 			if(!(sender instanceof Player)){
 				if(args.length == 1 && (args[0].equalsIgnoreCase("about") || args[0].equalsIgnoreCase("version"))){
@@ -281,7 +281,7 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 					sender.sendMessage("§4"+name+" plugin v"+version+" created by "+author);
 					return true;
 				}
-	    		sender.sendMessage("§c"+debug_prefix+"This command can only be used by players!");
+				sender.sendMessage("§c"+debug_prefix+"This command can only be used by players!");
 				return true;
 			}
 			if(!sender.hasPermission("rankup.use")){
@@ -497,5 +497,5 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 			
 		}
 		return true;
-    }
+	}
 }

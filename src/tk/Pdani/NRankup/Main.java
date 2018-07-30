@@ -31,6 +31,7 @@ import net.milkbowl.vault.permission.Permission;
 public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 	Logger log = Logger.getLogger("Minecraft");
 	String prefix = "[Rankup] ";
+	String debug_prefix = "[Rankup] ";
 	private static Permission perms = null;
 	private static Economy econ = null;
 	HashMap<Integer, String> ranks = new HashMap<Integer, String>();
@@ -43,14 +44,14 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		reloadRanks();
 		
 		if(!setupEconomy()){
-			log.severe(prefix+"Disabling plugin, due to missing dependency: Vault");
+			log.severe(debug_prefix+"Disabling plugin, due to missing dependency: Vault");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
 		setupPermissions();
 		
 		if(defaultRank == null || defaultRank.isEmpty()){
-			log.warning(prefix+"It looks like, this is the first start of the plugin. Take your time, edit the config.yml, then restart/reload the server!");
+			log.warning(debug_prefix+"It looks like, this is the first start of the plugin. Take your time, edit the config.yml, then restart/reload the server!");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -62,13 +63,13 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 		String author = this.getDescription().getAuthors().get(0);
 		String version = this.getDescription().getVersion();
 		String name = this.getDescription().getName();
-		log.info(prefix+""+name+" plugin v"+version+" created by "+author);
-		log.info(prefix+"Enabled.");
+		log.info(debug_prefix+""+name+" plugin v"+version+" created by "+author);
+		log.info(debug_prefix+"Enabled.");
 		
 		prefix = getConfig().getString("messages.prefix","[Rankup]") + " ";
 	}
 	public void onDisable(){
-		log.info(prefix+"Disabled.");
+		log.info(debug_prefix+"Disabled.");
 	}
 	
 	private boolean setupEconomy() {
@@ -280,7 +281,7 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 					sender.sendMessage("§4"+name+" plugin v"+version+" created by "+author);
 					return true;
 				}
-	    		sender.sendMessage("§c"+prefix+"This command can only be used by players!");
+	    		sender.sendMessage("§c"+debug_prefix+"This command can only be used by players!");
 				return true;
 			}
 			if(!sender.hasPermission("rankup.use")){
@@ -333,7 +334,7 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 					worth = Double.parseDouble(Integer.toString(rankPrice));
 					EconomyResponse er = getEconomy().withdrawPlayer(player,Math.abs(-worth));
 					if(!er.transactionSuccess()){
-						log.severe(prefix+"Economy transaction failed! Error: \""+er.errorMessage+"\"");
+						log.severe(debug_prefix+"Economy transaction failed! Error: \""+er.errorMessage+"\"");
 						String transaction_error = getConfig().getString("messages.transaction_error","An error occurred while processing your request! Please notify an Administrator!");
 						sender.sendMessage("§c"+transaction_error);
 						return true;
@@ -456,7 +457,7 @@ public class Main extends JavaPlugin  implements Listener, CommandExecutor {
 							worth = Double.parseDouble(Integer.toString(rankPrice));
 							EconomyResponse er = getEconomy().withdrawPlayer(player,Math.abs(-worth));
 							if(!er.transactionSuccess()){
-								log.severe(prefix+"Economy transaction failed! Error: \""+er.errorMessage+"\"");
+								log.severe(debug_prefix+"Economy transaction failed! Error: \""+er.errorMessage+"\"");
 								String transaction_error = getConfig().getString("messages.transaction_error","An error occurred while processing your request! Please notify an Administrator!");
 								sender.sendMessage("§c"+transaction_error);
 								return true;

@@ -2,7 +2,6 @@ package tk.Pdani.NRankup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,21 +45,8 @@ public class RankManager {
 		}
 		Set<String> players = configSection.getKeys(false);
 		for(String name : players){
-			boolean playerRankFound = false;
-			String rank = main.getConfig().getString("players."+name+".rank");
 			Player player = main.getServer().getPlayer(name);
 			if(player != null){
-				playerRankFound = isRank(rank);
-				if(!playerRankFound){
-					String defaultRankName = main.getConfig().getString("ranks."+main.defaultRank+".name");
-					main.getPermissions().playerRemoveGroup(null, player, rank);
-					main.getPermissions().playerAddGroup(null, player, defaultRankName);
-				}
-			}
-		}
-		Collection<? extends Player> onlinePlayers = main.getServer().getOnlinePlayers();
-		if(onlinePlayers.size() > 0){
-			for(Player player : onlinePlayers){
 				reloadPlayerRank(player);
 			}
 		}

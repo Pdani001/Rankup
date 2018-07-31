@@ -5,7 +5,7 @@ Dependencies:
 * Vault
 
 Confirmed working versions:
-* 1.12.2
+* 1.12.2 (and possibly higher)
 
 Confirmed working permission manager plugins:
 * PermissionsEX

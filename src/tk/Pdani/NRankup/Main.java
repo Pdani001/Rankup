@@ -27,7 +27,6 @@ public class Main extends JavaPlugin {
 		saveDefaultConfig();
 		
 		this.rm = new RankManager(this);
-		
 		rm.reloadRanks();
 		
 		this.debug_prefix = this.getDescription().getPrefix() + " ";
@@ -51,13 +50,13 @@ public class Main extends JavaPlugin {
 		this.getCommand("rankup").setExecutor(new PlayerCommand(this, rm));
 		getServer().getPluginManager().registerEvents(new PlayerJoin(rm), this);
 		
+		prefix = getConfig().getString("messages.prefix","[Rankup]") + " ";
+		
 		String author = this.getDescription().getAuthors().get(0);
 		String version = this.getDescription().getVersion();
 		String name = this.getDescription().getName();
 		log.info(debug_prefix+""+name+" plugin v"+version+" created by "+author);
 		log.info(debug_prefix+"Enabled.");
-		
-		prefix = getConfig().getString("messages.prefix","[Rankup]") + " ";
 	}
 	public void onDisable(){
 		log.info(debug_prefix+"Disabled.");

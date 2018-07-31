@@ -38,7 +38,8 @@ public class Main extends JavaPlugin {
 		setupPermissions();
 		
 		if(defaultRank == null || defaultRank.isEmpty()){
-			log.warning(debug_prefix+"It looks like, this is the first start of the plugin. Take your time, edit the config.yml, then restart/reload the server!");
+			log.warning(debug_prefix+"Disabling plugin, due to missing default rank!");
+			log.warning(debug_prefix+"If this is your first time loading the plugin, edit the config then restart/reload the server!");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}

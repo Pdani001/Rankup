@@ -3,6 +3,7 @@ This plugin was mainly created for Personal use, but I published its source code
 
 Dependencies:
 * Vault
+* A permission manager plugin (e.g. PermissionsEX)
 
 Confirmed working versions:
 * 1.7.10
@@ -11,6 +12,8 @@ Confirmed working versions:
 
 Confirmed working permission manager plugins:
 * PermissionsEX
+
+Warning: This plugin will NOT work with GroupManager!!
 
 All Rights Reserved unless otherwise explicitly stated.
 The plugin is allowed for Personal use, after a contact!!

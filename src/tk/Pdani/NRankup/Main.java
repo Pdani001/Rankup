@@ -15,7 +15,7 @@ import tk.Pdani.NRankup.Listener.PlayerJoin;
 public class Main extends JavaPlugin {
 	public Logger log = Logger.getLogger("Minecraft");
 	public String prefix = "[Rankup] ";
-	public String debug_prefix = "[Rankup] ";
+	public String debug_prefix = "";
 	private static Permission perms = null;
 	private static Economy econ = null;
 	public HashMap<Integer, String> ranks = new HashMap<Integer, String>();
@@ -29,6 +29,8 @@ public class Main extends JavaPlugin {
 		this.rm = new RankManager(this);
 		
 		rm.reloadRanks();
+		
+		this.debug_prefix = this.getDescription().getPrefix() + " ";
 		
 		if(!setupEconomy()){
 			log.severe(debug_prefix+"Disabling plugin, due to missing dependency: Vault");

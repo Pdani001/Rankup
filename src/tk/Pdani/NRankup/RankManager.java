@@ -25,7 +25,16 @@ public class RankManager {
 		HashMap<Integer, String> asd = new HashMap<Integer, String>();
 		for(String value : main.getConfig().getConfigurationSection("ranks").getKeys(false)){
 			int key = main.getConfig().getInt("ranks."+value+".priority", -1);
-			if(key != 0) {asd.put(key, value);} else {main.defaultRank = value;asd.put(key, value);}
+			if(key != 0) {
+				if(key != -1)asd.put(key, value);
+			} else {
+				if(main.defaultRank != null){
+					main.log.warning(main.debug_prefix+"There is more than one default rank in the config!");
+				} else {
+					main.defaultRank = value;
+					asd.put(key, value);
+				}
+			}
 		}
 		
 		Map<Integer, String> map = new TreeMap<Integer, String>(asd); 

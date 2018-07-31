@@ -1,6 +1,8 @@
 # Rankup
 This plugin was mainly created for Personal use, but I published its source code, so people can help contribute, if I do an error in the code.
 
+For help, visit the [Wiki page](https://github.com/Pdani001/Rankup/wiki) of the plugin.
+
 Dependencies:
 * Vault
 * A permission manager plugin (e.g. PermissionsEX)

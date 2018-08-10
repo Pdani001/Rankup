@@ -10,6 +10,7 @@ import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -85,6 +86,13 @@ public class RankManager {
 			List<String> groupList = Arrays.asList(groups);
 			if(!groupList.contains(rank)){
 				main.getPermissions().playerAddGroup(null, player, rank);
+			}
+			NavigableMap<Integer, String> mp = new TreeMap<Integer, String>(main.ranks);
+			for (Map.Entry<Integer, String> e : mp.entrySet()) {
+				String tname = main.getConfig().getString("ranks."+e.getValue()+".name");
+				if(groupList.contains(tname) && this.getPlayerRank(player) != tname){
+					main.getPermissions().playerRemoveGroup(null, player, tname);
+				}
 			}
 		}
 	}
@@ -162,6 +170,17 @@ public class RankManager {
 	
 	public String getPlayerRank(Player player){
 		String playerName = player.getName();
+		String currentRank = main.getConfig().getString("players."+playerName+".rank",null);
+		return currentRank;
+	}
+	
+	public String getPlayerRank(OfflinePlayer player){
+		String playerName = player.getName();
+		String currentRank = main.getConfig().getString("players."+playerName+".rank",null);
+		return currentRank;
+	}
+	
+	public String getPlayerRank(String playerName){
 		String currentRank = main.getConfig().getString("players."+playerName+".rank",null);
 		return currentRank;
 	}

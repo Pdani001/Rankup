@@ -12,6 +12,7 @@ messages:
     next_rank: '&dNext rank: &f{rank}&r'
   reloaded: Plugin reloaded!
   rank_changed: '&aYour rank successfully changed to &f{rank}&a!'
+  rank_changed_other: '&c{player}''s &arank successfully changed to &f{rank}&a!'
   rank_not_found: 'This rank doesn''t exist!'
   getrank:
     same_rank: You already have this rank!

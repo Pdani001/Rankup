@@ -48,8 +48,8 @@ public class PlayerCommand implements CommandExecutor {
 								main.getPermissions().playerRemoveGroup(null, otp, other_rank);
 								main.getPermissions().playerAddGroup(null, otp, rankName);
 							}
-							reload = true;
 						} else {
+							reload = true;
 							other_rank = rm.getPlayerRank(tp);
 							if(other_rank == null){
 								main.getPermissions().playerAddGroup(null, tp, rankName);
@@ -103,8 +103,8 @@ public class PlayerCommand implements CommandExecutor {
 								main.getPermissions().playerRemoveGroup(null, otp, other_rank);
 								main.getPermissions().playerAddGroup(null, otp, rankName);
 							}
-							reload = true;
 						} else {
+							reload = true;
 							other_rank = rm.getPlayerRank(tp);
 							if(other_rank == null){
 								main.getPermissions().playerAddGroup(null, tp, rankName);
@@ -374,8 +374,8 @@ public class PlayerCommand implements CommandExecutor {
 								main.getPermissions().playerRemoveGroup(null, otp, other_rank);
 								main.getPermissions().playerAddGroup(null, otp, rankName);
 							}
-							reload = true;
 						} else {
+							reload = true;
 							other_rank = rm.getPlayerRank(tp);
 							if(other_rank == null){
 								main.getPermissions().playerAddGroup(null, tp, rankName);

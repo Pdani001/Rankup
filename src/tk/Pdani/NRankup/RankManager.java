@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -62,7 +63,7 @@ public class RankManager {
 		}
 	}
 	
-	public void reloadPlayerRank(Player player) {
+	public void reloadPlayerRank(OfflinePlayer player) {
 		boolean playerRankFound = false;
 		String name = player.getName();
 		boolean hasRank = main.getConfig().isConfigurationSection("players."+name+"");
@@ -82,7 +83,7 @@ public class RankManager {
 			main.getPermissions().playerRemoveGroup(null, player, rank);
 			main.getPermissions().playerAddGroup(null, player, defaultRankName);
 		} else {
-			String[] groups = main.getPermissions().getPlayerGroups(player);
+			String[] groups = main.getPermissions().getPlayerGroups(null,player);
 			List<String> groupList = Arrays.asList(groups);
 			if(!groupList.contains(rank)){
 				main.getPermissions().playerAddGroup(null, player, rank);
@@ -95,6 +96,11 @@ public class RankManager {
 				}
 			}
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void reloadPlayerRank(Player player) {
+		reloadPlayerRank(main.getServer().getOfflinePlayer(player.getName()));
 	}
 	
 	public String getRankId(String rank) {
@@ -196,5 +202,75 @@ public class RankManager {
 			}
 		}
 		return value;
+	}
+	
+	public void setRankWeb(OfflinePlayer player, String rank, CommandSender sender){
+		String target = player.getName();
+		if(!main.getConfig().isConfigurationSection("players."+target)){
+			sender.sendMessage("error:UnknownPlayer");
+			return;
+		}
+		if(isRank(rank)){
+			String rankName = rank;
+			OfflinePlayer otp = player;
+			String other_rank = "";
+			other_rank = getPlayerRank(otp);
+			if(other_rank == null){
+				main.getPermissions().playerAddGroup(null, otp, rankName);
+			} else {
+				main.getPermissions().playerRemoveGroup(null, otp, other_rank);
+				main.getPermissions().playerAddGroup(null, otp, rankName);
+			}
+			main.getConfig().set("players."+target+".rank", rankName);
+			main.saveConfig();
+			sender.sendMessage("success");
+			reloadPlayerRank(otp);
+		} else {
+			sender.sendMessage("error:UnknownRank");
+		}
+	}
+	
+	public void setRank(OfflinePlayer player, String rank, CommandSender sender){
+		String target = player.getName();
+		if(!main.getConfig().isConfigurationSection("players."+target)){
+			sender.sendMessage("§c"+main.getConfig().getString("messages.player_not_found","The specified player doesn't exist OR does not have a rank!"));
+			return;
+		}
+		if(isRank(rank)){
+			String rankName = rank;
+			OfflinePlayer otp = player;
+			String other_rank = "";
+			other_rank = getPlayerRank(otp);
+			if(other_rank == null){
+				main.getPermissions().playerAddGroup(null, otp, rankName);
+			} else {
+				main.getPermissions().playerRemoveGroup(null, otp, other_rank);
+				main.getPermissions().playerAddGroup(null, otp, rankName);
+			}
+			main.getConfig().set("players."+target+".rank", rankName);
+			main.saveConfig();
+			String rankId = getRankId(rankName);
+			String rankDisplayName = main.color(main.getConfig().getString("ranks."+rankId+".display"));
+			String rank_changed = main.getConfig().getString("messages.rank_changed_other","&c{player}'s &arank successfully changed to &f{rank}&a!");
+			rank_changed = rank_changed.replace("{rank}", rankDisplayName);
+			rank_changed = rank_changed.replace("{player}", target);
+			rank_changed = main.color(rank_changed);
+			sender.sendMessage(rank_changed);
+			reloadPlayerRank(otp);
+		} else {
+			sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void setRank(Player player, String rank, CommandSender sender){
+		OfflinePlayer op = main.getServer().getOfflinePlayer(player.getName());
+		setRank(op,rank,sender);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void setRankWeb(Player player, String rank, CommandSender sender){
+		OfflinePlayer op = main.getServer().getOfflinePlayer(player.getName());
+		setRankWeb(op,rank,sender);
 	}
 }

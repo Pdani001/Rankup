@@ -29,113 +29,14 @@ public class PlayerCommand implements CommandExecutor {
 					sender.sendMessage("§4"+name+" plugin v"+version+" created by "+author);
 					return true;
 				} else if(args.length == 3 && args[0].equalsIgnoreCase("set")){
-					String target = args[2];
-					if(!main.getConfig().isConfigurationSection("players."+target)){
-						sender.sendMessage("§c"+main.getConfig().getString("messages.player_not_found","The specified player doesn't exist OR does not have a rank!"));
-						return true;
-					}
-					if(rm.isRank(args[1])){
-						String rankName = args[1];
-						Player tp = main.getServer().getPlayer(target);
-						String other_rank = "";
-						boolean reload = false;
-						if(tp == null){
-							OfflinePlayer otp = main.getServer().getOfflinePlayer(target);
-							other_rank = rm.getPlayerRank(otp);
-							if(other_rank == null){
-								main.getPermissions().playerAddGroup(null, otp, rankName);
-							} else {
-								main.getPermissions().playerRemoveGroup(null, otp, other_rank);
-								main.getPermissions().playerAddGroup(null, otp, rankName);
-							}
-						} else {
-							reload = true;
-							other_rank = rm.getPlayerRank(tp);
-							if(other_rank == null){
-								main.getPermissions().playerAddGroup(null, tp, rankName);
-							} else {
-								main.getPermissions().playerRemoveGroup(null, tp, other_rank);
-								main.getPermissions().playerAddGroup(null, tp, rankName);
-							}
-						}
-						main.getConfig().set("players."+target+".rank", rankName);
-						main.saveConfig();
-						String rankId = rm.getRankId(rankName);
-						String rankDisplayName = main.color(main.getConfig().getString("ranks."+rankId+".display"));
-						String rank_changed = main.getConfig().getString("messages.rank_changed_other","&c{player}'s &arank successfully changed to &f{rank}&a!");
-						rank_changed = rank_changed.replace("{rank}", rankDisplayName);
-						rank_changed = rank_changed.replace("{player}", target);
-						rank_changed = main.color(rank_changed);
-						sender.sendMessage(rank_changed);
-						if(reload){
-							rm.reloadPlayerRank(tp);
-						}
-					} else {
-						sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
-					}
+					Player tp = main.getServer().getPlayer(args[2]);
+					OfflinePlayer otp = main.getServer().getOfflinePlayer(args[2]);
+					rm.setRank((tp == null) ? otp : tp, args[1], sender);
 					return true;
 				} else if(args.length == 4 && args[0].equalsIgnoreCase("set")){
-					boolean isWeb = false;
-					String a4 = args[3];
-					if(a4.equalsIgnoreCase("true")){
-						isWeb = true;
-					}
-					String target = args[2];
-					if(!main.getConfig().isConfigurationSection("players."+target)){
-						if(!isWeb){
-							sender.sendMessage("§c"+main.getConfig().getString("messages.player_not_found","The specified player doesn't exist OR does not have a rank!"));
-						} else {
-							sender.sendMessage("error:UnknownPlayer");
-						}
-						return true;
-					}
-					if(rm.isRank(args[1])){
-						String rankName = args[1];
-						Player tp = main.getServer().getPlayer(target);
-						String other_rank = "";
-						boolean reload = false;
-						if(tp == null){
-							OfflinePlayer otp = main.getServer().getOfflinePlayer(target);
-							other_rank = rm.getPlayerRank(otp);
-							if(other_rank == null){
-								main.getPermissions().playerAddGroup(null, otp, rankName);
-							} else {
-								main.getPermissions().playerRemoveGroup(null, otp, other_rank);
-								main.getPermissions().playerAddGroup(null, otp, rankName);
-							}
-						} else {
-							reload = true;
-							other_rank = rm.getPlayerRank(tp);
-							if(other_rank == null){
-								main.getPermissions().playerAddGroup(null, tp, rankName);
-							} else {
-								main.getPermissions().playerRemoveGroup(null, tp, other_rank);
-								main.getPermissions().playerAddGroup(null, tp, rankName);
-							}
-						}
-						main.getConfig().set("players."+target+".rank", rankName);
-						main.saveConfig();
-						String rankId = rm.getRankId(rankName);
-						String rankDisplayName = main.color(main.getConfig().getString("ranks."+rankId+".display"));
-						String rank_changed = main.getConfig().getString("messages.rank_changed_other","&c{player}'s &arank successfully changed to &f{rank}&a!");
-						rank_changed = rank_changed.replace("{rank}", rankDisplayName);
-						rank_changed = rank_changed.replace("{player}", target);
-						rank_changed = main.color(rank_changed);
-						if(!isWeb){
-							sender.sendMessage(rank_changed);
-						} else {
-							sender.sendMessage("success");
-						}
-						if(reload){
-							rm.reloadPlayerRank(tp);
-						}
-					} else {
-						if(!isWeb){
-							sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
-						} else {
-							sender.sendMessage("error:UnknownRank");
-						}
-					}
+					Player tp = main.getServer().getPlayer(args[2]);
+					OfflinePlayer otp = main.getServer().getOfflinePlayer(args[2]);
+					rm.setRankWeb((tp == null) ? otp : tp, args[1], sender);
 					return true;
 				}
 				sender.sendMessage("§c"+main.debug_prefix+"This command can only be used by players!");
@@ -268,6 +169,7 @@ public class PlayerCommand implements CommandExecutor {
 						rank_changed = rank_changed.replace("{rank}", rankDisplayName);
 						rank_changed = main.color(rank_changed);
 						sender.sendMessage(rank_changed);
+						rm.reloadPlayerRank(player);
 					} else {
 						sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
 					}
@@ -355,50 +257,9 @@ public class PlayerCommand implements CommandExecutor {
 					if(!player.hasPermission("rankup.admin")){
 						return true;
 					}
-					String target = args[2];
-					if(!main.getConfig().isConfigurationSection("players."+target)){
-						sender.sendMessage("§c"+main.getConfig().getString("messages.player_not_found","The specified player doesn't exist OR does not have a rank!"));
-						return true;
-					}
-					if(rm.isRank(args[1])){
-						String rankName = args[1];
-						Player tp = main.getServer().getPlayer(target);
-						String other_rank = "";
-						boolean reload = false;
-						if(tp == null){
-							OfflinePlayer otp = main.getServer().getOfflinePlayer(target);
-							other_rank = rm.getPlayerRank(otp);
-							if(other_rank == null){
-								main.getPermissions().playerAddGroup(null, otp, rankName);
-							} else {
-								main.getPermissions().playerRemoveGroup(null, otp, other_rank);
-								main.getPermissions().playerAddGroup(null, otp, rankName);
-							}
-						} else {
-							reload = true;
-							other_rank = rm.getPlayerRank(tp);
-							if(other_rank == null){
-								main.getPermissions().playerAddGroup(null, tp, rankName);
-							} else {
-								main.getPermissions().playerRemoveGroup(null, tp, other_rank);
-								main.getPermissions().playerAddGroup(null, tp, rankName);
-							}
-						}
-						main.getConfig().set("players."+target+".rank", rankName);
-						main.saveConfig();
-						String rankId = rm.getRankId(rankName);
-						String rankDisplayName = main.color(main.getConfig().getString("ranks."+rankId+".display"));
-						String rank_changed = main.getConfig().getString("messages.rank_changed_other","&c{player}'s &arank successfully changed to &f{rank}&a!");
-						rank_changed = rank_changed.replace("{rank}", rankDisplayName);
-						rank_changed = rank_changed.replace("{player}", target);
-						rank_changed = main.color(rank_changed);
-						sender.sendMessage(rank_changed);
-						if(reload){
-							rm.reloadPlayerRank(tp);
-						}
-					} else {
-						sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
-					}
+					Player tp = main.getServer().getPlayer(args[2]);
+					OfflinePlayer otp = main.getServer().getOfflinePlayer(args[2]);
+					rm.setRank((tp == null) ? otp : tp, args[1], sender);
 				}
 			}
 		}

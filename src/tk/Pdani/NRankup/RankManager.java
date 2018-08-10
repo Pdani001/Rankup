@@ -65,7 +65,7 @@ public class RankManager {
 	public void reloadPlayerRank(Player player) {
 		boolean playerRankFound = false;
 		String name = player.getName();
-		boolean hasRank = main.getConfig().isConfigurationSection("players."+name+".rank");
+		boolean hasRank = main.getConfig().isConfigurationSection("players."+name+"");
 		String rank = main.getConfig().getString("players."+name+".rank",null);
 		if(!hasRank){
 			String defaultRankName = main.getConfig().getString("ranks."+main.defaultRank+".name");
@@ -90,7 +90,7 @@ public class RankManager {
 			NavigableMap<Integer, String> mp = new TreeMap<Integer, String>(main.ranks);
 			for (Map.Entry<Integer, String> e : mp.entrySet()) {
 				String tname = main.getConfig().getString("ranks."+e.getValue()+".name");
-				if(groupList.contains(tname) && this.getPlayerRank(player) != tname){
+				if(groupList.contains(tname) && !tname.equals(rank)){
 					main.getPermissions().playerRemoveGroup(null, player, tname);
 				}
 			}

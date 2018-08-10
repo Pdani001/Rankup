@@ -29,7 +29,8 @@ public class Main extends JavaPlugin {
 		this.rm = new RankManager(this);
 		rm.reloadRanks();
 		
-		this.debug_prefix = this.getDescription().getPrefix() + " ";
+		String name = this.getDescription().getName();
+		this.debug_prefix = "["+ name + "] ";
 		
 		if(!setupEconomy()){
 			log.severe(debug_prefix+"Disabling plugin, due to missing dependency: Vault");
@@ -54,7 +55,6 @@ public class Main extends JavaPlugin {
 		
 		String author = this.getDescription().getAuthors().get(0);
 		String version = this.getDescription().getVersion();
-		String name = this.getDescription().getName();
 		log.info(debug_prefix+""+name+" plugin v"+version+" created by "+author);
 		log.info(debug_prefix+"Enabled.");
 	}

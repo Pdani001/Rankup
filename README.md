@@ -14,8 +14,9 @@ Confirmed working versions:
 
 Confirmed working permission manager plugins:
 * PermissionsEX
+* LuckPerms
 
-Warning: This plugin will NOT work with GroupManager!!
+Warning: This plugin will NOT work with GroupManager!! (Not yet tested)
 
 All Rights Reserved unless otherwise explicitly stated.
 The plugin is allowed for Personal use, after a contact!!

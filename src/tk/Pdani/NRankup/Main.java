@@ -27,10 +27,11 @@ public class Main extends JavaPlugin {
 		saveDefaultConfig();
 		
 		this.rm = new RankManager(this);
-		rm.reloadRanks();
 		
 		String name = this.getDescription().getName();
 		this.debug_prefix = "["+ name + "] ";
+		
+		rm.reloadRanks();
 		
 		if(!setupEconomy()){
 			log.severe(debug_prefix+"Disabling plugin, due to missing dependency: Vault");

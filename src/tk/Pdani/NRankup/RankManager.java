@@ -2,6 +2,7 @@ package tk.Pdani.NRankup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,12 +11,12 @@ import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-@SuppressWarnings("static-access")
 public class RankManager {
 	private Main main;
 	public RankManager (Main main) {
@@ -49,15 +50,32 @@ public class RankManager {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void reloadAllPlayerRanks() {
 		ConfigurationSection configSection = main.getConfig().getConfigurationSection("players");
 		if(configSection == null){
 			return;
 		}
-		Set<String> players = configSection.getKeys(false);
-		for(String name : players){
-			Player player = main.getServer().getPlayer(name);
-			if(player != null){
+		Collection<? extends Player> collectionList = null;
+		Player[] playerList = null;
+		boolean isOldClass = false;
+		try {
+		    if (Bukkit.class.getMethod("getOnlinePlayers", new Class<?>[0]).getReturnType() == Collection.class) {
+		    	collectionList = ((Collection<? extends Player>)Bukkit.class.getMethod("getOnlinePlayers", new Class<?>[0]).invoke(null, new Object[0]));
+		    } else {
+		    	playerList = ((Player[])Bukkit.class.getMethod("getOnlinePlayers", new Class<?>[0]).invoke(null, new Object[0]));
+		    	isOldClass = true;
+		    }
+		} catch (Exception ex) {
+			ex.printStackTrace(); // will probably never print
+			return;
+		}
+		if(isOldClass){
+			for(Player player : playerList){
+				reloadPlayerRank(player);
+			}
+		} else {
+			for(Player player : collectionList){
 				reloadPlayerRank(player);
 			}
 		}
@@ -70,7 +88,7 @@ public class RankManager {
 		String rank = main.getConfig().getString("players."+name+".rank",null);
 		if(!hasRank){
 			String defaultRankName = main.getConfig().getString("ranks."+main.defaultRank+".name");
-			main.getPermissions().playerAddGroup(null, player, defaultRankName);
+			Main.getPermissions().playerAddGroup(null, player, defaultRankName);
 			main.getConfig().set("players."+name+".rank", defaultRankName);
 			main.saveConfig();
 			return;
@@ -80,27 +98,26 @@ public class RankManager {
 		playerRankFound = isRank(rank);
 		if(!playerRankFound){
 			String defaultRankName = main.getConfig().getString("ranks."+main.defaultRank+".name");
-			main.getPermissions().playerRemoveGroup(null, player, rank);
-			main.getPermissions().playerAddGroup(null, player, defaultRankName);
+			Main.getPermissions().playerRemoveGroup(null, player, rank);
+			Main.getPermissions().playerAddGroup(null, player, defaultRankName);
 		} else {
-			String[] groups = main.getPermissions().getPlayerGroups(null,player);
+			String[] groups = Main.getPermissions().getPlayerGroups(null,player);
 			List<String> groupList = Arrays.asList(groups);
 			if(!groupList.contains(rank)){
-				main.getPermissions().playerAddGroup(null, player, rank);
+				Main.getPermissions().playerAddGroup(null, player, rank);
 			}
 			NavigableMap<Integer, String> mp = new TreeMap<Integer, String>(main.ranks);
 			for (Map.Entry<Integer, String> e : mp.entrySet()) {
 				String tname = main.getConfig().getString("ranks."+e.getValue()+".name");
 				if(groupList.contains(tname) && !tname.equals(rank)){
-					main.getPermissions().playerRemoveGroup(null, player, tname);
+					Main.getPermissions().playerRemoveGroup(null, player, tname);
 				}
 			}
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void reloadPlayerRank(Player player) {
-		reloadPlayerRank(main.getServer().getOfflinePlayer(player.getName()));
+		reloadPlayerRank(main.getServer().getOfflinePlayer(player.getUniqueId()));
 	}
 	
 	public String getRankId(String rank) {
@@ -176,14 +193,12 @@ public class RankManager {
 	
 	public String getPlayerRank(Player player){
 		String playerName = player.getName();
-		String currentRank = main.getConfig().getString("players."+playerName+".rank",null);
-		return currentRank;
+		return getPlayerRank(playerName);
 	}
 	
 	public String getPlayerRank(OfflinePlayer player){
 		String playerName = player.getName();
-		String currentRank = main.getConfig().getString("players."+playerName+".rank",null);
-		return currentRank;
+		return getPlayerRank(playerName);
 	}
 	
 	public String getPlayerRank(String playerName){
@@ -216,10 +231,10 @@ public class RankManager {
 			String other_rank = "";
 			other_rank = getPlayerRank(otp);
 			if(other_rank == null){
-				main.getPermissions().playerAddGroup(null, otp, rankName);
+				Main.getPermissions().playerAddGroup(null, otp, rankName);
 			} else {
-				main.getPermissions().playerRemoveGroup(null, otp, other_rank);
-				main.getPermissions().playerAddGroup(null, otp, rankName);
+				Main.getPermissions().playerRemoveGroup(null, otp, other_rank);
+				Main.getPermissions().playerAddGroup(null, otp, rankName);
 			}
 			main.getConfig().set("players."+target+".rank", rankName);
 			main.saveConfig();
@@ -242,10 +257,10 @@ public class RankManager {
 			String other_rank = "";
 			other_rank = getPlayerRank(otp);
 			if(other_rank == null){
-				main.getPermissions().playerAddGroup(null, otp, rankName);
+				Main.getPermissions().playerAddGroup(null, otp, rankName);
 			} else {
-				main.getPermissions().playerRemoveGroup(null, otp, other_rank);
-				main.getPermissions().playerAddGroup(null, otp, rankName);
+				Main.getPermissions().playerRemoveGroup(null, otp, other_rank);
+				Main.getPermissions().playerAddGroup(null, otp, rankName);
 			}
 			main.getConfig().set("players."+target+".rank", rankName);
 			main.saveConfig();
@@ -262,15 +277,13 @@ public class RankManager {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void setRank(Player player, String rank, CommandSender sender){
-		OfflinePlayer op = main.getServer().getOfflinePlayer(player.getName());
+		OfflinePlayer op = main.getServer().getOfflinePlayer(player.getUniqueId());
 		setRank(op,rank,sender);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void setRankWeb(Player player, String rank, CommandSender sender){
-		OfflinePlayer op = main.getServer().getOfflinePlayer(player.getName());
+		OfflinePlayer op = main.getServer().getOfflinePlayer(player.getUniqueId());
 		setRankWeb(op,rank,sender);
 	}
 }

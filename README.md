@@ -18,8 +18,7 @@ Confirmed working permission manager plugins:
 
 Warning: This plugin will NOT work with GroupManager!! (Not yet tested)
 
-All Rights Reserved unless otherwise explicitly stated.
-The plugin is allowed for Personal use, after a contact!!
+If you use the code of this plugin, please credit me for it. Thx. :)
 
 Contact locations:
 * Email: [pecsidaniel10@gmail.com](mailto:pecsidaniel10@gmail.com)

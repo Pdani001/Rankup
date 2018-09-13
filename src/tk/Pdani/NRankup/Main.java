@@ -52,7 +52,7 @@ public class Main extends JavaPlugin {
 		this.getCommand("rankup").setExecutor(new PlayerCommand(this, rm));
 		getServer().getPluginManager().registerEvents(new PlayerJoin(rm), this);
 		
-		prefix = getConfig().getString("messages.prefix","[Rankup]") + " ";
+		prefix = Messages.getString("prefix","[Rankup]",null) + " ";
 		
 		String author = this.getDescription().getAuthors().get(0);
 		String version = this.getDescription().getVersion();

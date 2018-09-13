@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import tk.Pdani.NRankup.Main;
+import tk.Pdani.NRankup.Messages;
 import tk.Pdani.NRankup.RankManager;
 
 @SuppressWarnings("static-access")
@@ -50,7 +51,7 @@ public class PlayerCommand implements CommandExecutor {
 					sender.sendMessage("§4"+name+" plugin v"+version+" created by "+author);
 					return true;
 				}
-				String no_perm = main.getConfig().getString("messages.no_perm","You don't have permission to use this command!");
+				String no_perm = Messages.getString("no_perm","You don't have permission to use this command!",null);
 				sender.sendMessage("§c"+main.prefix+no_perm);
 				return true;
 			}

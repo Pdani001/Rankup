@@ -1,5 +1,6 @@
 package tk.Pdani.NRankup;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
@@ -30,8 +31,21 @@ public class Main extends JavaPlugin {
 		saveDefaultConfig();
 		
 		InputStream is = this.getClass().getClassLoader().getResourceAsStream("messages.properties");
+		Properties props = new Properties();
+		try {
+			if(is == null) {
+				log.severe(debug_prefix+"The messages.properties file was not loaded from the jar!");
+				props = null;
+			} else {
+				props.load(is);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			props = null;
+		}
 		
-		this.msg = new Messages(this, this, is);
+		
+		this.msg = new Messages(this, props);
 		this.rm = new RankManager(this, msg);
 		
 		String name = this.getDescription().getName();
@@ -59,9 +73,6 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerJoin(rm), this);
 		
 		prefix = msg.getString("prefix","[Rankup]",null) + " ";
-		
-		Properties props = msg.getProps(null);
-		log.info(debug_prefix+"Properties size: "+props.size());
 		
 		String author = this.getDescription().getAuthors().get(0);
 		String version = this.getDescription().getVersion();

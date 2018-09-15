@@ -15,9 +15,11 @@ import tk.Pdani.NRankup.RankManager;
 public class PlayerCommand implements CommandExecutor {
 	private Main main;
 	private RankManager rm;
-	public PlayerCommand(Main main, RankManager rm) {
+	private Messages msg;
+	public PlayerCommand(Main main, RankManager rm, Messages msg) {
 		this.main = main;
 		this.rm = rm;
+		this.msg = msg;
 	}
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -51,7 +53,7 @@ public class PlayerCommand implements CommandExecutor {
 					sender.sendMessage("§4"+name+" plugin v"+version+" created by "+author);
 					return true;
 				}
-				String no_perm = Messages.getString("no_perm","You don't have permission to use this command!",null);
+				String no_perm = msg.getString("no_perm","You don't have permission to use this command!",null);
 				sender.sendMessage("§c"+main.prefix+no_perm);
 				return true;
 			}
@@ -69,11 +71,11 @@ public class PlayerCommand implements CommandExecutor {
 				String rankName = main.getConfig().getString("ranks."+nextGroup+".name");
 				String rankDisplay = main.color(main.getConfig().getString("ranks."+nextGroup+".display"));
 				int rankPrice = main.getConfig().getInt("ranks."+nextGroup+".price");
-				String next_rank_msg = main.getConfig().getString("messages.next_rank","&eThe next rank is &f{rank}&e, which price is: &a${price}");
+				String next_rank_msg = msg.getString("next_rank","&eThe next rank is &f{rank}&e, which price is: &a${price}",null);
 				next_rank_msg = next_rank_msg.replace("{rank}", rankDisplay);
 				next_rank_msg = next_rank_msg.replace("{price}", Integer.toString(rankPrice));
 				next_rank_msg = main.color(next_rank_msg);
-				String next_rank_noprice_msg = main.getConfig().getString("messages.next_rank_noprice","&eThe next rank is &f{rank}&e!");
+				String next_rank_noprice_msg = msg.getString("next_rank_noprice","&eThe next rank is &f{rank}&e!",null);
 				next_rank_noprice_msg = next_rank_noprice_msg.replace("{rank}", rankDisplay);
 				next_rank_noprice_msg = main.color(next_rank_noprice_msg);
 				if(rankPrice == 0){
@@ -84,7 +86,7 @@ public class PlayerCommand implements CommandExecutor {
 				int playerEco = (int) main.getEconomy().getBalance(player);
 				if(playerEco < rankPrice){
 					int difference = rankPrice - playerEco;
-					String next_rank_price_msg = main.getConfig().getString("messages.next_rank_diff","&cYou need &a${diff} &cmore to get this rank!");
+					String next_rank_price_msg = msg.getString("next_rank_diff","&cYou need &a${diff} &cmore to get this rank!",null);
 					next_rank_price_msg = next_rank_price_msg.replace("{diff}", Integer.toString(difference));
 					next_rank_price_msg = main.color(next_rank_price_msg);
 					sender.sendMessage(next_rank_price_msg);

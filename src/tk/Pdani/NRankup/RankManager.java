@@ -19,8 +19,11 @@ import org.bukkit.entity.Player;
 
 public class RankManager {
 	private Main main;
-	public RankManager (Main main) {
+	@SuppressWarnings("unused")
+	private Messages msg;
+	public RankManager (Main main, Messages msg) {
 		this.main = main;
+		this.msg = msg;
 	}
 	public void reloadRanks() {
 		main.ranks.clear();

@@ -81,13 +81,12 @@ public class Main extends JavaPlugin {
 			}
 		}
 		
-		if(!getConfig().contains("messages.now-in")){
+		if(!getConfig().isSet("messages-now-in") || getConfig().isConfigurationSection("messages")){
 			log.info(debug_prefix+"Deleted messages section from config.");
 			getConfig().set("messages",null);
-			getConfig().set("messages.now-in","messages.properties");
+			getConfig().set("messages-now-in","messages.properties");
 			saveConfig();
 		}
-		
 		
 		this.msg = new Messages(this, props);
 		this.rm = new RankManager(this, msg);

@@ -1,6 +1,4 @@
-messages:
-  now-in: messages.properties
-
+messages-now-in: messages.properties
 ranks:
   '1':
     name: coal

@@ -1,11 +1,17 @@
 package tk.Pdani.NRankup;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,6 +21,7 @@ import net.milkbowl.vault.permission.Permission;
 import tk.Pdani.NRankup.Listener.PlayerCommand;
 import tk.Pdani.NRankup.Listener.PlayerJoin;
 
+@SuppressWarnings("unused")
 public class Main extends JavaPlugin {
 	public Logger log = Logger.getLogger("Minecraft");
 	public String prefix = "[Rankup] ";
@@ -30,7 +37,9 @@ public class Main extends JavaPlugin {
 		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
 		
-		InputStream is = this.getClass().getClassLoader().getResourceAsStream("messages.properties");
+		String version = this.getDescription().getVersion();
+		
+		InputStream is = this.getResource("messages.properties");
 		Properties props = new Properties();
 		try {
 			if(is == null) {
@@ -42,6 +51,41 @@ public class Main extends JavaPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 			props = null;
+		}
+		File f = new File(this.getDataFolder()+"/messages.properties");
+		if(!f.exists()) {
+			log.info(debug_prefix+"Created new messages.properties file");
+			this.saveResource("messages.properties",f);
+		} else {
+			String cv = getConfig().getString("version");
+			if(cv == null || !cv.equals(version)){
+				getConfig().set("version", version);
+				saveConfig();
+				try {
+					InputStream is2 = new FileInputStream(f);
+					if(is2 != is){
+						log.info(debug_prefix+"Saved updated messages.properties");
+						File oldF = new File(this.getDataFolder()+"/messages.properties");
+						File newF = new File(this.getDataFolder()+"/messages.old.properties");
+						if(newF.exists())
+							newF.delete();
+						if(oldF.renameTo(newF)) {
+							oldF.delete();
+							this.saveResource("messages.properties",f);
+						}
+					}
+					is2.close();
+				} catch (Exception e) {
+					e.printStackTrace(); // Will probably never print
+				}
+			}
+		}
+		
+		if(!getConfig().contains("messages.now-in")){
+			log.info(debug_prefix+"Deleted messages section from config.");
+			getConfig().set("messages",null);
+			getConfig().set("messages.now-in","messages.properties");
+			saveConfig();
 		}
 		
 		
@@ -75,7 +119,6 @@ public class Main extends JavaPlugin {
 		prefix = msg.getString("prefix","[Rankup]",null) + " ";
 		
 		String author = this.getDescription().getAuthors().get(0);
-		String version = this.getDescription().getVersion();
 		log.info(debug_prefix+""+name+" plugin v"+version+" created by "+author);
 		log.info(debug_prefix+"Enabled.");
 	}
@@ -111,6 +154,23 @@ public class Main extends JavaPlugin {
 	
 	public String color(String string){
 		return ChatColor.translateAlternateColorCodes('&', string);
+	}
+	
+	private void saveResource(String name, File outFile) {
+	    try (InputStream in = this.getResource(
+	            name);
+	            OutputStream out = new FileOutputStream(outFile);) {
+
+	        int read = 0;
+	        byte[] bytes = new byte[1024];
+
+	        while ((read = in.read(bytes)) != -1) {
+	            out.write(bytes, 0, read);
+	        }
+
+	    } catch (IOException ex) {
+	        ex.printStackTrace();
+	    }
 	}
 	
 }

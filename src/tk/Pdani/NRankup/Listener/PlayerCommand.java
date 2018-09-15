@@ -64,7 +64,7 @@ public class PlayerCommand implements CommandExecutor {
 			if(args.length == 0){
 				String nextGroup = rm.getNextRank(rank);
 				if(nextGroup == null){
-					String already_highest = main.getConfig().getString("messages.already_highest","You have the highest available rank!");
+					String already_highest = main.getConfig().getString("already_highest","You have the highest available rank!");
 					sender.sendMessage("§c"+already_highest);
 					return true;
 				}
@@ -96,7 +96,7 @@ public class PlayerCommand implements CommandExecutor {
 					EconomyResponse er = main.getEconomy().withdrawPlayer(player,Math.abs(-worth));
 					if(!er.transactionSuccess()){
 						main.log.severe(main.debug_prefix+"Economy transaction failed! Error: \""+er.errorMessage+"\"");
-						String transaction_error = main.getConfig().getString("messages.transaction_error","An error occurred while processing your request! Please notify an Administrator!");
+						String transaction_error = msg.getString("transaction_error","An error occurred while processing your request! Please notify an Administrator!",null);
 						sender.sendMessage("§c"+transaction_error);
 						return true;
 					}
@@ -108,7 +108,7 @@ public class PlayerCommand implements CommandExecutor {
 					}
 					main.getConfig().set("players."+player.getName()+".rank", rankName);
 					main.saveConfig();
-					String rank_buy_success = main.getConfig().getString("messages.rank_buy_success","&aYou successfully bought the &f{rank} &arank!");
+					String rank_buy_success = msg.getString("rank_buy_success","&aYou successfully bought the &f{rank} &arank!",null);
 					rank_buy_success = rank_buy_success.replace("{rank}", rankDisplay);
 					rank_buy_success = main.color(rank_buy_success);
 					sender.sendMessage(rank_buy_success);
@@ -127,10 +127,10 @@ public class PlayerCommand implements CommandExecutor {
 						String rankId = rm.getRankId(rank);
 						rank = main.color(main.getConfig().getString("ranks."+rankId+".display"));
 					}
-					String current_rank = main.getConfig().getString("messages.status.current_rank","&dCurrent rank: &f{rank}");
+					String current_rank = msg.getString("status.current_rank","&dCurrent rank: &f{rank}",null);
 					current_rank = current_rank.replace("{rank}", rank);
 					current_rank = main.color(current_rank);
-					String next_rank = main.getConfig().getString("messages.status.next_rank","&dNext rank: &f{rank}");
+					String next_rank = msg.getString("status.next_rank","&dNext rank: &f{rank}",null);
 					next_rank = next_rank.replace("{rank}", nextGroup);
 					next_rank = main.color(next_rank);
 					sender.sendMessage(current_rank);
@@ -147,8 +147,8 @@ public class PlayerCommand implements CommandExecutor {
 					main.reloadConfig();
 					rm.reloadRanks();
 					rm.reloadAllPlayerRanks();
-					main.prefix = main.getConfig().getString("messages.prefix","[Rankup]") + " ";
-					String reloaded = main.getConfig().getString("messages.reloaded","Plugin reloaded!");
+					main.prefix = msg.getString("prefix","[Rankup]",null) + " ";
+					String reloaded = msg.getString("reloaded","Plugin reloaded!",null);
 					sender.sendMessage("§c"+reloaded);
 				}
 			} else if(args.length == 2){
@@ -168,39 +168,39 @@ public class PlayerCommand implements CommandExecutor {
 						main.saveConfig();
 						String rankId = rm.getRankId(rankName);
 						String rankDisplayName = main.color(main.getConfig().getString("ranks."+rankId+".display"));
-						String rank_changed = main.getConfig().getString("messages.rank_changed","&aYour rank successfully changed to &f{rank}&a!");
+						String rank_changed = msg.getString("rank_changed","&aYour rank successfully changed to &f{rank}&a!",null);
 						rank_changed = rank_changed.replace("{rank}", rankDisplayName);
 						rank_changed = main.color(rank_changed);
 						sender.sendMessage(rank_changed);
 						rm.reloadPlayerRank(player);
 					} else {
-						sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
+						sender.sendMessage("§c"+msg.getString("rank_not_found","This rank doesn't exist!",null));
 					}
 				} else if(args[0].equalsIgnoreCase("getrank")){
 					if(rm.isRank(args[1])){
 						String rankName = args[1];
 						if(!rm.isRank(rankName)){
-							sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
+							sender.sendMessage("§c"+msg.getString("rank_not_found","This rank doesn't exist!",null));
 							return true;
 						}
 						if(rank != null && rank.equals(rankName)){
-							sender.sendMessage("§c"+main.getConfig().getString("messages.getrank.same_rank","You already have this rank!"));
+							sender.sendMessage("§c"+msg.getString("getrank.same_rank","You already have this rank!",null));
 							return true;
 						}
 						if(rm.isPreviousRank(rank,rankName)){
-							sender.sendMessage("§c"+main.getConfig().getString("messages.getrank.bigger_rank","You already have a bigger rank!"));
+							sender.sendMessage("§c"+msg.getString("getrank.bigger_rank","You already have a bigger rank!",null));
 							return true;
 						}
 						String nextGroup = rm.getNextRank(rank);
 						if(nextGroup == null){
-							String already_highest = main.getConfig().getString("messages.already_highest","You have the highest available rank!");
+							String already_highest = msg.getString("already_highest","You have the highest available rank!",null);
 							sender.sendMessage("§c"+already_highest);
 							return true;
 						}
 						String nextGroupId = nextGroup;
 						nextGroup = main.getConfig().getString("ranks."+nextGroup+".name");
 						if(!nextGroup.equals(rankName)){
-							sender.sendMessage("§c"+main.getConfig().getString("messages.getrank.not_yet","You can't buy this rank yet."));
+							sender.sendMessage("§c"+msg.getString("getrank.not_yet","You can't buy this rank yet.",null));
 							return true;
 						}
 						
@@ -209,7 +209,7 @@ public class PlayerCommand implements CommandExecutor {
 						int playerEco = (int) main.getEconomy().getBalance(player);
 						if(playerEco < rankPrice){
 							int difference = rankPrice - playerEco;
-							String next_rank_price_msg = main.getConfig().getString("messages.getrank.rank_diff","&cYou need &a${diff} &cmore to get the &f{rank} &crank!");
+							String next_rank_price_msg = msg.getString("getrank.rank_diff","&cYou need &a${diff} &cmore to get the &f{rank} &crank!",null);
 							next_rank_price_msg = next_rank_price_msg.replace("{diff}", Integer.toString(difference));
 							next_rank_price_msg = next_rank_price_msg.replace("{rank}", rankDisplayName);
 							next_rank_price_msg = main.color(next_rank_price_msg);
@@ -220,7 +220,7 @@ public class PlayerCommand implements CommandExecutor {
 							EconomyResponse er = main.getEconomy().withdrawPlayer(player,Math.abs(-worth));
 							if(!er.transactionSuccess()){
 								main.log.severe(main.debug_prefix+"Economy transaction failed! Error: \""+er.errorMessage+"\"");
-								String transaction_error = main.getConfig().getString("messages.transaction_error","An error occurred while processing your request! Please notify an Administrator!");
+								String transaction_error = msg.getString("transaction_error","An error occurred while processing your request! Please notify an Administrator!",null);
 								sender.sendMessage("§c"+transaction_error);
 								return true;
 							}
@@ -232,24 +232,24 @@ public class PlayerCommand implements CommandExecutor {
 							}
 							main.getConfig().set("players."+player.getName()+".rank", nextGroup);
 							main.saveConfig();
-							String rank_buy_success = main.getConfig().getString("messages.rank_buy_success","&aYou successfully bought the &f{rank} &arank!");
+							String rank_buy_success = msg.getString("rank_buy_success","&aYou successfully bought the &f{rank} &arank!",null);
 							rank_buy_success = rank_buy_success.replace("{rank}", rankDisplayName);
 							rank_buy_success = main.color(rank_buy_success);
 							sender.sendMessage(rank_buy_success);
 						}
 					} else {
-						sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
+						sender.sendMessage("§c"+main.getConfig().getString("rank_not_found","This rank doesn't exist!"));
 					}
 				} else if(args[0].equalsIgnoreCase("status")){
 					String target = args[1];
 					if(!main.getConfig().isConfigurationSection("players."+target)){
-						sender.sendMessage("§c"+main.getConfig().getString("messages.player_not_found","The specified player doesn't exist OR does not have a rank!"));
+						sender.sendMessage("§c"+msg.getString("player_not_found","The specified player doesn't exist OR does not have a rank!",null));
 						return true;
 					}
 					String targetRank = main.getConfig().getString("players."+target+".rank");
 					String rid = rm.getRankId(targetRank);
 					String rankDisplayName = main.color(main.getConfig().getString("ranks."+rid+".display"));
-					String other_player_rank = main.getConfig().getString("messages.other_player_rank","&e{player}&d's current rank: &f{rank}&d!");
+					String other_player_rank = msg.getString("other_player_rank","&e{player}&d's current rank: &f{rank}&d!",null);
 					other_player_rank = other_player_rank.replace("{player}", args[1]);
 					other_player_rank = other_player_rank.replace("{rank}", rankDisplayName);
 					other_player_rank = main.color(other_player_rank);

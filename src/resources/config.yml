@@ -1,0 +1,34 @@
+messages:
+  now-in: messages.properties
+
+ranks:
+  '1':
+    name: coal
+    display: '&8Coal'
+    priority: 1
+    price: 100
+  '2':
+    name: iron
+    display: '&7Iron'
+    priority: 2
+    price: 200
+  '3':
+    name: gold
+    display: '&6Gold'
+    priority: 3
+    price: 300
+  '4':
+    name: diamond
+    display: '&bDiamond'
+    priority: 4
+    price: 400
+  '5':
+    name: emerald
+    display: '&aEmerald'
+    priority: 5
+    price: 500
+  '6':
+    name: default
+    display: '&5None'
+    priority: 0
+    price: 0

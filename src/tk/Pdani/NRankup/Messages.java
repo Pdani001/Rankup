@@ -16,12 +16,27 @@ public class Messages {
 		this.defProps = defProps;
 	}
 
-	public String getString(String key, String def) {
+	private String getString(String key, String def) {
 		if(defProps == null)
 			return def;
 		return defProps.getProperty(key,def);
 	}
 	
+	public Properties getDefaults(){
+		return defProps;
+	}
+	
+	public void setDefaults(Properties props){
+		this.defProps = props;
+	}
+	
+	/**
+	 * Gets the message from the properties file
+	 * @param key Message key from properties file
+	 * @param def Default message if key doesn't exists
+	 * @param lang Language code or {@code null}
+	 * @return Message
+	 */
 	public String getString(String key, String def, String lang){
 		Properties props = new Properties();
 	    InputStream is = null;
@@ -35,7 +50,16 @@ public class Messages {
 	    		f = new File(plugin.getDataFolder()+"/messages.properties");
 	    	}
 	        if(!f.exists() || f.isDirectory()) {
-	        	return getString(key, def);
+	        	if(lang != null){
+	        		InputStream is2 = plugin.getResource("messages-"+lang+".properties");
+	        		if(is2 == null){
+	        			return getString(key, def, null);
+	        		}
+	        		props.load(is2);
+	    	        return props.getProperty(key,def);
+	        	} else {
+	        		return getString(key, def);
+	        	}
 	        }
 	        is = new FileInputStream(f);
 	        props.load(is);

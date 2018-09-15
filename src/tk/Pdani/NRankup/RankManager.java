@@ -19,7 +19,6 @@ import org.bukkit.entity.Player;
 
 public class RankManager {
 	private Main main;
-	@SuppressWarnings("unused")
 	private Messages msg;
 	public RankManager (Main main, Messages msg) {
 		this.main = main;
@@ -251,7 +250,7 @@ public class RankManager {
 	public void setRank(OfflinePlayer player, String rank, CommandSender sender){
 		String target = player.getName();
 		if(!main.getConfig().isConfigurationSection("players."+target)){
-			sender.sendMessage("§c"+main.getConfig().getString("messages.player_not_found","The specified player doesn't exist OR does not have a rank!"));
+			sender.sendMessage("§c"+msg.getString("player_not_found","The specified player doesn't exist OR does not have a rank!",null));
 			return;
 		}
 		if(isRank(rank)){
@@ -269,14 +268,14 @@ public class RankManager {
 			main.saveConfig();
 			String rankId = getRankId(rankName);
 			String rankDisplayName = main.color(main.getConfig().getString("ranks."+rankId+".display"));
-			String rank_changed = main.getConfig().getString("messages.rank_changed_other","&c{player}'s &arank successfully changed to &f{rank}&a!");
+			String rank_changed = msg.getString("rank_changed_other","&c{player}'s &arank successfully changed to &f{rank}&a!",null);
 			rank_changed = rank_changed.replace("{rank}", rankDisplayName);
 			rank_changed = rank_changed.replace("{player}", target);
 			rank_changed = main.color(rank_changed);
 			sender.sendMessage(rank_changed);
 			reloadPlayerRank(otp);
 		} else {
-			sender.sendMessage("§c"+main.getConfig().getString("messages.rank_not_found","This rank doesn't exist!"));
+			sender.sendMessage("§c"+msg.getString("rank_not_found","This rank doesn't exist!",null));
 		}
 	}
 	

@@ -5,28 +5,40 @@ ranks:
     display: '&8Coal'
     priority: 1
     price: 100
+    playerCommands: {}
+    consoleCommands: {}
   '2':
     name: iron
     display: '&7Iron'
     priority: 2
     price: 200
+    playerCommands: {}
+    consoleCommands: {}
   '3':
     name: gold
     display: '&6Gold'
     priority: 3
     price: 300
+    playerCommands: {}
+    consoleCommands: {}
   '4':
     name: diamond
     display: '&bDiamond'
     priority: 4
     price: 400
+    playerCommands: {}
+    consoleCommands: {}
   '5':
     name: emerald
     display: '&aEmerald'
     priority: 5
     price: 500
+    playerCommands: {}
+    consoleCommands: {}
   '6':
     name: default
     display: '&5None'
     priority: 0
     price: 0
+    playerCommands: {}
+    consoleCommands: {}

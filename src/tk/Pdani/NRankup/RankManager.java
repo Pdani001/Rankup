@@ -10,20 +10,21 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 public class RankManager {
 	private Main main;
-	private Messages msg;
-	public RankManager (Main main, Messages msg) {
+	public RankManager (Main main) {
 		this.main = main;
-		this.msg = msg;
 	}
+	@SuppressWarnings("static-access")
 	public void reloadRanks() {
 		main.ranks.clear();
 		main.defaultRank = null;
@@ -34,7 +35,7 @@ public class RankManager {
 				if(key != -1)asd.put(key, value);
 			} else {
 				if(main.defaultRank != null){
-					main.log.warning(main.debug_prefix+"There is more than one default rank in the config!");
+					main.instance.getLogger().log(Level.INFO, "There is more than one default rank in the config!");
 				} else {
 					main.defaultRank = value;
 					asd.put(key, value);
@@ -250,7 +251,7 @@ public class RankManager {
 	public void setRank(OfflinePlayer player, String rank, CommandSender sender){
 		String target = player.getName();
 		if(!main.getConfig().isConfigurationSection("players."+target)){
-			sender.sendMessage("§c"+msg.getString("player_not_found","The specified player doesn't exist OR does not have a rank!",null));
+			sender.sendMessage("§c"+Messages.getString("player_not_found","The specified player doesn't exist OR does not have a rank!"));
 			return;
 		}
 		if(isRank(rank)){
@@ -268,14 +269,14 @@ public class RankManager {
 			main.saveConfig();
 			String rankId = getRankId(rankName);
 			String rankDisplayName = main.color(main.getConfig().getString("ranks."+rankId+".display"));
-			String rank_changed = msg.getString("rank_changed_other","&c{player}'s &arank successfully changed to &f{rank}&a!",null);
+			String rank_changed = Messages.getString("rank_changed_other","&c{player}'s &arank successfully changed to &f{rank}&a!");
 			rank_changed = rank_changed.replace("{rank}", rankDisplayName);
 			rank_changed = rank_changed.replace("{player}", target);
 			rank_changed = main.color(rank_changed);
 			sender.sendMessage(rank_changed);
 			reloadPlayerRank(otp);
 		} else {
-			sender.sendMessage("§c"+msg.getString("rank_not_found","This rank doesn't exist!",null));
+			sender.sendMessage("§c"+Messages.getString("rank_not_found","This rank doesn't exist!"));
 		}
 	}
 	
@@ -287,5 +288,25 @@ public class RankManager {
 	public void setRankWeb(Player player, String rank, CommandSender sender){
 		OfflinePlayer op = main.getServer().getOfflinePlayer(player.getUniqueId());
 		setRankWeb(op,rank,sender);
+	}
+	
+	@SuppressWarnings("static-access")
+	public void runRankCommands(Player player, String rank){
+		ConsoleCommandSender console = main.instance.getServer().getConsoleSender();
+		String rankId = getRankId(rank);
+		List<String> pc = main.getConfig().getStringList("ranks."+rankId+".playerCommands");
+		List<String> cc = main.getConfig().getStringList("ranks."+rankId+".consoleCommands");
+		for(String c : pc){
+			if(c.startsWith("/"))
+				c = c.replaceFirst("/", "");
+			c = c.replace("{player}",player.getName());
+			player.performCommand(c);
+		}
+		for(String c : cc){
+			if(c.startsWith("/"))
+				c = c.replaceFirst("/", "");
+			c= c.replace("{player}",player.getName());
+			main.instance.getServer().dispatchCommand(console, c);
+		}
 	}
 }

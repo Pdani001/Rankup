@@ -292,21 +292,28 @@ public class RankManager {
 	
 	@SuppressWarnings("static-access")
 	public void runRankCommands(Player player, String rank){
-		ConsoleCommandSender console = main.instance.getServer().getConsoleSender();
-		String rankId = getRankId(rank);
-		List<String> pc = main.getConfig().getStringList("ranks."+rankId+".playerCommands");
-		List<String> cc = main.getConfig().getStringList("ranks."+rankId+".consoleCommands");
-		for(String c : pc){
-			if(c.startsWith("/"))
-				c = c.replaceFirst("/", "");
-			c = c.replace("{player}",player.getName());
-			player.performCommand(c);
-		}
-		for(String c : cc){
-			if(c.startsWith("/"))
-				c = c.replaceFirst("/", "");
-			c= c.replace("{player}",player.getName());
-			main.instance.getServer().dispatchCommand(console, c);
-		}
+		float d = (float)main.getConfig().getDouble("commandDelay",1.0);
+		long delay = (long) (20 * d);
+		main.asyncTaskLater(new Runnable() {
+            @Override
+            public void run() {
+            	ConsoleCommandSender console = main.instance.getServer().getConsoleSender();
+        		String rankId = getRankId(rank);
+        		List<String> pc = main.getConfig().getStringList("ranks."+rankId+".playerCommands");
+        		List<String> cc = main.getConfig().getStringList("ranks."+rankId+".consoleCommands");
+        		for(String c : pc){
+        			if(c.startsWith("/"))
+        				c = c.replaceFirst("/", "");
+        			c = c.replace("{player}",player.getName());
+        			player.performCommand(c);
+        		}
+        		for(String c : cc){
+        			if(c.startsWith("/"))
+        				c = c.replaceFirst("/", "");
+        			c= c.replace("{player}",player.getName());
+        			main.instance.getServer().dispatchCommand(console, c);
+        		}
+            }
+        },delay);
 	}
 }

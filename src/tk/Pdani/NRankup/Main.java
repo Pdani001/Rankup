@@ -21,6 +21,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -121,6 +122,18 @@ public class Main extends JavaPlugin {
 	public String color(String string){
 		return ChatColor.translateAlternateColorCodes('&', string);
 	}
+	
+	public static void asyncTask(Runnable run){
+		getScheduler().runTaskAsynchronously(instance, run);
+	}
+	
+	public static void asyncTaskLater(Runnable run, long delay){
+		getScheduler().runTaskLaterAsynchronously(instance, run, delay);
+	}
+	
+	public static BukkitScheduler getScheduler() {
+        return instance.getServer().getScheduler();
+    }
 	
 	public void broadcast(String msg){
 		List<Player> players = getOnlinePlayers();

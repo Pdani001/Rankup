@@ -25,8 +25,11 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import tk.Pdani.NRankup.Listener.InventoryListener;
 import tk.Pdani.NRankup.Listener.PlayerCommand;
 import tk.Pdani.NRankup.Listener.PlayerJoin;
+import tk.Pdani.NRankup.managers.GuiManager;
+import tk.Pdani.NRankup.managers.RankManager;
 
 @SuppressWarnings("unused")
 public class Main extends JavaPlugin {
@@ -37,6 +40,7 @@ public class Main extends JavaPlugin {
 	public HashMap<Integer, String> ranks = new HashMap<Integer, String>();
 	public String defaultRank = null;
 	private RankManager rm;
+	private GuiManager gui;
 	public static JavaPlugin instance = null;
 	private static Main main = null;
 	
@@ -59,6 +63,7 @@ public class Main extends JavaPlugin {
 		}
 		
 		this.rm = new RankManager(this);
+		this.gui = new GuiManager(rm);
 		
 		String name = this.getDescription().getName();
 		
@@ -80,8 +85,9 @@ public class Main extends JavaPlugin {
 		
 		rm.reloadAllPlayerRanks();
 		
-		this.getCommand("rankup").setExecutor(new PlayerCommand(this, rm));
+		this.getCommand("rankup").setExecutor(new PlayerCommand(this, rm, gui));
 		getServer().getPluginManager().registerEvents(new PlayerJoin(rm), this);
+		getServer().getPluginManager().registerEvents(new InventoryListener(gui), this);
 		
 		prefix = Messages.getString("prefix","[Rankup]") + " ";
 		

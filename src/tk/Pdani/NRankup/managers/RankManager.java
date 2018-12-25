@@ -1,4 +1,4 @@
-package tk.Pdani.NRankup;
+package tk.Pdani.NRankup.managers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +18,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+
+import tk.Pdani.NRankup.Main;
+import tk.Pdani.NRankup.Messages;
 
 public class RankManager {
 	private Main main;

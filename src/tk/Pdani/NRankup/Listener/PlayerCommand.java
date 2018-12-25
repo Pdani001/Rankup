@@ -11,15 +11,18 @@ import org.bukkit.entity.Player;
 import net.milkbowl.vault.economy.EconomyResponse;
 import tk.Pdani.NRankup.Main;
 import tk.Pdani.NRankup.Messages;
-import tk.Pdani.NRankup.RankManager;
+import tk.Pdani.NRankup.managers.GuiManager;
+import tk.Pdani.NRankup.managers.RankManager;
 
 @SuppressWarnings("static-access")
 public class PlayerCommand implements CommandExecutor {
 	private Main main;
 	private RankManager rm;
-	public PlayerCommand(Main main, RankManager rm) {
+	private GuiManager gui;
+	public PlayerCommand(Main main, RankManager rm, GuiManager gui) {
 		this.main = main;
 		this.rm = rm;
+		this.gui = gui;
 	}
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -158,6 +161,11 @@ public class PlayerCommand implements CommandExecutor {
 					main.prefix = Messages.getString("prefix","[Rankup]") + " ";
 					String reloaded = Messages.getString("reloaded","Plugin reloaded!");
 					sender.sendMessage("§c"+reloaded);
+				} else if(args[0].equalsIgnoreCase("guitest")){
+					if(!player.hasPermission("rankup.admin")){
+						return true;
+					}
+					gui.openInventory(player);
 				}
 			} else if(args.length == 2){
 				if(args[0].equalsIgnoreCase("set")){

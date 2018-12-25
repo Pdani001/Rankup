@@ -4,7 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import tk.Pdani.NRankup.RankManager;
+import tk.Pdani.NRankup.managers.RankManager;
 
 public class PlayerJoin implements Listener {
 	private RankManager rm;

@@ -27,6 +27,7 @@ public class GuiManager {
 		myInv.setItem(0, i1);
 		myInv.setItem(8, new ItemStack(Material.GOLD_BLOCK, 1));
 		invs.put(target, myInv);
+		target.openInventory(myInv);
 	}
 	public void closedInventory(Player target){
 		invs.remove(target);

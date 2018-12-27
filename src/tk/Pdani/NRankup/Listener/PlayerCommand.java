@@ -61,10 +61,12 @@ public class PlayerCommand implements CommandExecutor {
 				return true;
 			}
 			Player player = (Player)sender;
-			@SuppressWarnings("unused")
-			String group = main.getPermissions().getPrimaryGroup(player);
 			String rank = rm.getPlayerRank(player);
 			if(args.length == 0){
+				if(main.getConfig().getBoolean("guiOnRankup",false)){
+					gui.openInventory(player);
+					return true;
+				}
 				String nextGroup = rm.getNextRank(rank);
 				if(nextGroup == null){
 					String already_highest = main.getConfig().getString("already_highest","You have the highest available rank!");
@@ -161,10 +163,7 @@ public class PlayerCommand implements CommandExecutor {
 					main.prefix = Messages.getString("prefix","[Rankup]") + " ";
 					String reloaded = Messages.getString("reloaded","Plugin reloaded!");
 					sender.sendMessage("§c"+reloaded);
-				} else if(args[0].equalsIgnoreCase("guitest")){
-					if(!player.hasPermission("rankup.admin")){
-						return true;
-					}
+				} else if(args[0].equalsIgnoreCase("gui")){
 					gui.openInventory(player);
 				}
 			} else if(args.length == 2){

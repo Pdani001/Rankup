@@ -1,4 +1,5 @@
 messages-now-in: messages.properties
+guiOnRankup: false
 commandDelay: 1.0
 ranks:
   '1':

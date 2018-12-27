@@ -181,9 +181,10 @@ public class Main extends JavaPlugin {
 		try {
 			InputStream is2 = new FileInputStream(f);
 			if(is2 != is){
+				String v = Messages.getDefString("version");
 				instance.getLogger().log(Level.INFO, "Saved updated messages.properties");
 				File oldF = new File(instance.getDataFolder()+"/messages.properties");
-				File newF = new File(instance.getDataFolder()+"/messages.old.properties");
+				File newF = new File(instance.getDataFolder()+"/messages.oldv"+v+".properties");
 				if(newF.exists())
 					newF.delete();
 				if(oldF.renameTo(newF)) {

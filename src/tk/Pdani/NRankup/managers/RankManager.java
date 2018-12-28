@@ -297,7 +297,7 @@ public class RankManager {
 	public void runRankCommands(Player player, String rank){
 		float d = (float)main.getConfig().getDouble("commandDelay",1.0);
 		long delay = (long) (20 * d);
-		main.asyncTaskLater(new Runnable() {
+		main.taskLater(new Runnable() {
             @Override
             public void run() {
             	ConsoleCommandSender console = main.instance.getServer().getConsoleSender();

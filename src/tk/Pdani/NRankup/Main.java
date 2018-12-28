@@ -87,7 +87,7 @@ public class Main extends JavaPlugin {
 		
 		this.getCommand("rankup").setExecutor(new PlayerCommand(this, rm, gui));
 		getServer().getPluginManager().registerEvents(new PlayerJoin(rm), this);
-		getServer().getPluginManager().registerEvents(new InventoryListener(gui), this);
+		getServer().getPluginManager().registerEvents(new InventoryListener(gui, rm), this);
 		
 		prefix = Messages.getString("prefix","[Rankup]") + " ";
 		
@@ -137,15 +137,26 @@ public class Main extends JavaPlugin {
 		getScheduler().runTaskLaterAsynchronously(instance, run, delay);
 	}
 	
+	public static void taskLater(Runnable run, long delay){
+		getScheduler().runTaskLater(instance, run, delay);
+	}
+	
 	public static BukkitScheduler getScheduler() {
         return instance.getServer().getScheduler();
     }
+	
+	public static String getPrefix(){
+		return main.prefix;
+	}
 	
 	public void broadcast(String msg){
 		List<Player> players = getOnlinePlayers();
 		for(Player p : players){
 			p.sendMessage(msg);
 		}
+	}
+	public static void bc(String msg){
+		main.broadcast(msg);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -178,6 +189,7 @@ public class Main extends JavaPlugin {
 	}
 	
 	public static void updateMsg(File f, InputStream is){
+		Properties props = new Properties();
 		try {
 			InputStream is2 = new FileInputStream(f);
 			if(is2 != is){
@@ -196,6 +208,14 @@ public class Main extends JavaPlugin {
 		} catch (Exception e) {
 			e.printStackTrace(); // Will probably never print
 		}
+		InputStream fis = null;
+		try {
+			fis = new FileInputStream(f);
+			props.load(fis);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		Messages.setProps(props);
 	}
 	public static void reloadMessages(){
 		InputStream is = instance.getResource("messages.properties");

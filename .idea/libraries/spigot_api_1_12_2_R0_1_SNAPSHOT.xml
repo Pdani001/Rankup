@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="spigot-api-1.12.2-R0.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://D:/Eclipse/spigot-api-1.12.2-R0.1-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="https://helpch.at/docs/1.12.2/" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

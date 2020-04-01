@@ -1,0 +1,18 @@
+name: Rankup
+main: tk.Pdani.NRankup.Main
+version: 2.9.2
+author: Pdani001
+description: Rankup/levelup system
+website: https://pdani.tk/
+softdepend: [Vault]
+commands:
+   rankup:
+     description: Rankup command
+     usage: /<command> [arguments...]
+permissions:
+   rankup.use:
+      description: Rankup use permission
+      default: false
+   rankup.admin:
+      description: Rankup admin permission
+      default: op

@@ -67,64 +67,7 @@ public class PlayerCommand implements CommandExecutor {
 					gui.openInventory(player);
 					return true;
 				}
-				String nextGroup = rm.getNextRank(rank);
-				if(nextGroup == null){
-					String already_highest = Messages.getString("already_highest","You have the highest available rank!");
-					sender.sendMessage("§c"+already_highest);
-					return true;
-				}
-				String rankName = main.getConfig().getString("ranks."+nextGroup+".name");
-				String rankDisplay = main.color(main.getConfig().getString("ranks."+nextGroup+".display"));
-				int rankPrice = main.getConfig().getInt("ranks."+nextGroup+".price");
-				String next_rank_msg = Messages.getString("next_rank","&eThe next rank is &f{rank}&e, which price is: &a${price}");
-				next_rank_msg = next_rank_msg.replace("{rank}", rankDisplay);
-				next_rank_msg = next_rank_msg.replace("{price}", Integer.toString(rankPrice));
-				next_rank_msg = main.color(next_rank_msg);
-				String next_rank_noprice_msg = Messages.getString("next_rank_noprice","&eThe next rank is &f{rank}&e!");
-				next_rank_noprice_msg = next_rank_noprice_msg.replace("{rank}", rankDisplay);
-				next_rank_noprice_msg = main.color(next_rank_noprice_msg);
-				if(rankPrice == 0){
-					sender.sendMessage(next_rank_noprice_msg);
-				} else {
-					sender.sendMessage(next_rank_msg);
-				}
-				int playerEco = (int) main.getEconomy().getBalance(player);
-				if(playerEco < rankPrice){
-					int difference = rankPrice - playerEco;
-					String next_rank_price_msg = Messages.getString("next_rank_diff","&cYou need &a${diff} &cmore to get this rank!");
-					next_rank_price_msg = next_rank_price_msg.replace("{diff}", Integer.toString(difference));
-					next_rank_price_msg = main.color(next_rank_price_msg);
-					sender.sendMessage(next_rank_price_msg);
-				} else {
-					Double worth = 0.0;
-					worth = Double.parseDouble(Integer.toString(rankPrice));
-					EconomyResponse er = main.getEconomy().withdrawPlayer(player,Math.abs(-worth));
-					if(!er.transactionSuccess()){
-						main.instance.getLogger().log(Level.SEVERE, "Economy transaction failed! Error: \""+er.errorMessage+"\"");
-						String transaction_error = Messages.getString("transaction_error","An error occurred while processing your request! Please notify an Administrator!");
-						sender.sendMessage("§c"+transaction_error);
-						return true;
-					}
-					if(rank == null){
-						main.getPermissions().playerAddGroup(null, player, rankName);
-					} else {
-						main.getPermissions().playerRemoveGroup(null, player, rank);
-						main.getPermissions().playerAddGroup(null, player, rankName);
-					}
-					main.getConfig().set("players."+player.getName()+".rank", rankName);
-					main.saveConfig();
-					rm.runRankCommands(player,rankName);
-					String rank_buy_success = Messages.getString("rank_buy_success","&aYou successfully bought the &f{rank} &arank!");
-					rank_buy_success = rank_buy_success.replace("{rank}", rankDisplay);
-					rank_buy_success = main.color(rank_buy_success);
-					sender.sendMessage(rank_buy_success);
-					String announce = Messages.getString("getrank.announce","&e{player} &asuccessfully bought the &f{rank} &arank!");
-					announce = announce.replace("{rank}", rankDisplay);
-					announce = announce.replace("{player}", player.getName());
-					announce = "&a" + main.prefix + "&f" + announce;
-					announce = main.color(announce);
-					main.broadcast(announce);
-				}
+				getNextRank(rank,player);
 			} else if(args.length == 1){
 				if(args[0].equalsIgnoreCase("status")){
 					String nextGroup = rm.getNextRank(rank);
@@ -168,6 +111,8 @@ public class PlayerCommand implements CommandExecutor {
 						return true;
 					
 					gui.openInventory(player);
+				} else if(args[0].equalsIgnoreCase("nextrank")){
+					getNextRank(rank,player);
 				}
 			} else if(args.length == 2){
 				if(args[0].equalsIgnoreCase("set")){
@@ -292,5 +237,66 @@ public class PlayerCommand implements CommandExecutor {
 			}
 		}
 		return true;
+	}
+
+	private void getNextRank(String rank, Player player){
+		String nextGroup = rm.getNextRank(rank);
+		if(nextGroup == null){
+			String already_highest = Messages.getString("already_highest","You have the highest available rank!");
+			player.sendMessage("§c"+already_highest);
+			return;
+		}
+		String rankName = main.getConfig().getString("ranks."+nextGroup+".name");
+		String rankDisplay = main.color(main.getConfig().getString("ranks."+nextGroup+".display"));
+		int rankPrice = main.getConfig().getInt("ranks."+nextGroup+".price");
+		String next_rank_msg = Messages.getString("next_rank","&eThe next rank is &f{rank}&e, which price is: &a${price}");
+		next_rank_msg = next_rank_msg.replace("{rank}", rankDisplay);
+		next_rank_msg = next_rank_msg.replace("{price}", Integer.toString(rankPrice));
+		next_rank_msg = main.color(next_rank_msg);
+		String next_rank_noprice_msg = Messages.getString("next_rank_noprice","&eThe next rank is &f{rank}&e!");
+		next_rank_noprice_msg = next_rank_noprice_msg.replace("{rank}", rankDisplay);
+		next_rank_noprice_msg = main.color(next_rank_noprice_msg);
+		if(rankPrice == 0){
+			player.sendMessage(next_rank_noprice_msg);
+		} else {
+			player.sendMessage(next_rank_msg);
+		}
+		int playerEco = (int) main.getEconomy().getBalance(player);
+		if(playerEco < rankPrice){
+			int difference = rankPrice - playerEco;
+			String next_rank_price_msg = Messages.getString("next_rank_diff","&cYou need &a${diff} &cmore to get this rank!");
+			next_rank_price_msg = next_rank_price_msg.replace("{diff}", Integer.toString(difference));
+			next_rank_price_msg = main.color(next_rank_price_msg);
+			player.sendMessage(next_rank_price_msg);
+		} else {
+			double worth = 0.0;
+			worth = Double.parseDouble(Integer.toString(rankPrice));
+			EconomyResponse er = main.getEconomy().withdrawPlayer(player,Math.abs(-worth));
+			if(!er.transactionSuccess()){
+				main.instance.getLogger().log(Level.SEVERE, "Economy transaction failed! Error: \""+er.errorMessage+"\"");
+				String transaction_error = Messages.getString("transaction_error","An error occurred while processing your request! Please notify an Administrator!");
+				player.sendMessage("§c"+transaction_error);
+				return;
+			}
+			if(rank == null){
+				main.getPermissions().playerAddGroup(null, player, rankName);
+			} else {
+				main.getPermissions().playerRemoveGroup(null, player, rank);
+				main.getPermissions().playerAddGroup(null, player, rankName);
+			}
+			main.getConfig().set("players."+player.getName()+".rank", rankName);
+			main.saveConfig();
+			rm.runRankCommands(player,rankName);
+			String rank_buy_success = Messages.getString("rank_buy_success","&aYou successfully bought the &f{rank} &arank!");
+			rank_buy_success = rank_buy_success.replace("{rank}", rankDisplay);
+			rank_buy_success = main.color(rank_buy_success);
+			player.sendMessage(rank_buy_success);
+			String announce = Messages.getString("getrank.announce","&e{player} &asuccessfully bought the &f{rank} &arank!");
+			announce = announce.replace("{rank}", rankDisplay);
+			announce = announce.replace("{player}", player.getName());
+			announce = "&a" + main.prefix + "&f" + announce;
+			announce = main.color(announce);
+			main.broadcast(announce);
+		}
 	}
 }

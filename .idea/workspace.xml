@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22577489-c7cb-44cc-bec7-a568dee15e71" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/jar_Rankup.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Spigot_API_1_14_4_94af569_20190911_0820.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Vault.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RankUp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/messages.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/messages.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tk/Pdani/NRankup/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tk/Pdani/NRankup/Main.java" afterDir="false" />
+    <list default="true" id="22577489-c7cb-44cc-bec7-a568dee15e71" name="Default Changelist" comment="Updated project to IntelliJ">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tk/Pdani/NRankup/Listener/PlayerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tk/Pdani/NRankup/Listener/PlayerCommand.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +55,19 @@
       <option name="presentableId" value="Default" />
       <updated>1585768017376</updated>
     </task>
+    <task id="LOCAL-00001" summary="Updated project to IntelliJ">
+      <created>1585769418542</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1585769418542</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated project to IntelliJ" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated project to IntelliJ" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="177" key="#Project_Structure" timestamp="1585769332467">
@@ -81,10 +78,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585768399254" />
-    <state x="614" y="113" width="807" height="868" key="CommitChangelistDialog2" timestamp="1585769386924">
+    <state x="614" y="113" width="807" height="868" key="CommitChangelistDialog2" timestamp="1586001563218">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="614" y="113" width="807" height="868" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585769386924" />
+    <state x="614" y="113" width="807" height="868" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586001563218" />
     <state x="242" y="112" key="DiffContextDialog" timestamp="1585769370151">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -93,6 +90,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="666" y="260" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1585769310696" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1585769460112">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585769460112" />
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585768563793">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

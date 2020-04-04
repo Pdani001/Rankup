@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="jar:Rankup">
     <output-path>$PROJECT_DIR$/out/Rankup</output-path>
-    <root id="archive" name="Rankup.jar">
+    <root id="archive" name="NRankup.jar">
       <element id="module-output" name="RankUp" />
     </root>
   </artifact>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22577489-c7cb-44cc-bec7-a568dee15e71" name="Default Changelist" comment="Updated project to IntelliJ">
+    <list default="true" id="22577489-c7cb-44cc-bec7-a568dee15e71" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/jar_Rankup.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/jar_Rankup.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tk/Pdani/NRankup/Listener/PlayerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tk/Pdani/NRankup/Listener/PlayerCommand.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +34,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="D:/Eclipse/spigot-api-1.12.2-R0.1-SNAPSHOT.jar!/" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
@@ -62,26 +62,34 @@
       <option name="project" value="LOCAL" />
       <updated>1585769418542</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added the &quot;nextrank&quot; sub-command">
+      <created>1586001598807</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1586001598807</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated project to IntelliJ" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated project to IntelliJ" />
+    <MESSAGE value="Added the &quot;nextrank&quot; sub-command" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added the &quot;nextrank&quot; sub-command" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="552" y="177" key="#Project_Structure" timestamp="1585769332467">
+    <state x="552" y="177" key="#Project_Structure" timestamp="1586001641201">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="177" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1585769332467" />
+    <state x="552" y="177" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1586001641201" />
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585768399254">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585768399254" />
-    <state x="614" y="113" width="807" height="868" key="CommitChangelistDialog2" timestamp="1586001563218">
+    <state x="614" y="113" width="807" height="868" key="CommitChangelistDialog2" timestamp="1586001596591">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="614" y="113" width="807" height="868" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586001563218" />
+    <state x="614" y="113" width="807" height="868" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586001596591" />
     <state x="242" y="112" key="DiffContextDialog" timestamp="1585769370151">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -90,10 +98,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="666" y="260" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1585769310696" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1585769460112">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1586001601636">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585769460112" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586001601636" />
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585768563793">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
